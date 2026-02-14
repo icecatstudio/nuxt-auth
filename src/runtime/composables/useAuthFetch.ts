@@ -1,6 +1,7 @@
 import type { AvailableRouterMethod, NitroFetchOptions, NitroFetchRequest } from 'nitropack'
 import { useNuxtApp, useRuntimeConfig } from '#imports'
 import type { ResolvedModuleOptions } from '../types'
+import { isFetchError, toPlainHeaders } from '../utils/fetch-helpers'
 import { useAuth } from './useAuth'
 
 /**
@@ -75,29 +76,3 @@ export function useAuthFetch() {
   return authFetch
 }
 
-function isFetchError(error: unknown, status: number): boolean {
-  return (
-    typeof error === 'object'
-    && error !== null
-    && 'response' in error
-    && (error as { response?: { status?: number } }).response?.status === status
-  )
-}
-
-function toPlainHeaders(headers: HeadersInit | undefined): Record<string, string> {
-  if (!headers) return {}
-
-  if (headers instanceof Headers) {
-    const plain: Record<string, string> = {}
-    headers.forEach((value, key) => {
-      plain[key] = value
-    })
-    return plain
-  }
-
-  if (Array.isArray(headers)) {
-    return Object.fromEntries(headers)
-  }
-
-  return { ...headers } as Record<string, string>
-}
