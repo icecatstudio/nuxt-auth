@@ -1,6 +1,6 @@
 {
   "name": "@icecat-studio/nuxt-auth",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Modern authentication module for Nuxt 3+ with token-based auth, auto-refresh, SSR support, and smart tab coordination",
   "repository": {
     "type": "git",
