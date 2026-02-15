@@ -53,7 +53,6 @@ export default defineNuxtModule<ModuleOptions>({
     },
     autoRefresh: {
       enabled: true,
-      interval: 60 * 14, // 14 minutes (should be less than access token maxAge)
       pauseOnInactive: true,
       enableTabCoordination: true,
       coordinationCookieName: 'auth.last_refresh',
@@ -75,6 +74,13 @@ export default defineNuxtModule<ModuleOptions>({
 
     // Merge options with defaults
     const resolvedOptions = defu(options, nuxt.options.auth || {})
+
+    // Auto-calculate refresh interval from accessToken.maxAge if not explicitly set
+    if (resolvedOptions.autoRefresh?.interval === undefined) {
+      const maxAge = resolvedOptions.accessToken?.maxAge ?? 60 * 15
+      resolvedOptions.autoRefresh = resolvedOptions.autoRefresh || {}
+      resolvedOptions.autoRefresh.interval = Math.round(maxAge * 0.75)
+    }
 
     // Add runtime config
     nuxt.options.runtimeConfig.public.auth = resolvedOptions

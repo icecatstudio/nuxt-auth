@@ -71,7 +71,11 @@ export interface RefreshTokenOptions extends BaseTokenOptions {
 export interface AutoRefreshOptions {
   /** Enable automatic token refresh. Default: true */
   enabled?: boolean
-  /** Token refresh interval in seconds. Default: 840 (14 minutes) */
+  /**
+   * Token refresh interval in seconds.
+   * When not set, automatically calculated as `accessToken.maxAge * 0.75`.
+   * For example, with default maxAge of 900s (15 min), interval will be 675s (~11 min).
+   */
   interval?: number
   /**
    * Pause refresh when page is not visible (hidden tab).
