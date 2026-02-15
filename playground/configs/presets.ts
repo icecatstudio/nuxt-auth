@@ -47,7 +47,7 @@ const baseConfig = {
   },
   autoRefresh: {
     enabled: true,
-    interval: 7, // 7 seconds for testing
+    // interval: 7, // 7 seconds for testing
   },
 }
 
