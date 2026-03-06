@@ -1,7 +1,10 @@
 <template>
   <div class="auth-quick-login">
     <h4>Quick Login</h4>
-    <form @submit.prevent="handleQuickLogin" class="quick-login-form">
+    <form
+      class="quick-login-form"
+      @submit.prevent="handleQuickLogin"
+    >
       <input
         v-model="email"
         type="email"
@@ -14,10 +17,17 @@
         placeholder="Password (password)"
         required
       >
-      <button type="submit" :disabled="loading">
+      <button
+        type="submit"
+        :disabled="loading"
+      >
         {{ loading ? 'Loading...' : 'Login' }}
       </button>
-      <button type="button" @click="handleLogout" :disabled="!auth.loggedIn.value">
+      <button
+        type="button"
+        :disabled="!auth.loggedIn.value"
+        @click="handleLogout"
+      >
         Logout
       </button>
     </form>

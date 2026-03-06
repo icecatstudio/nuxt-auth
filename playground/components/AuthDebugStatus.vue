@@ -4,23 +4,35 @@
     <div class="debug-grid">
       <div class="debug-item">
         <span class="debug-label">Status:</span>
-        <span class="debug-value status" :class="auth.status.value">{{ auth.status.value }}</span>
+        <span
+          class="debug-value status"
+          :class="auth.status.value"
+        >{{ auth.status.value }}</span>
       </div>
       <div class="debug-item">
         <span class="debug-label">Logged In:</span>
-        <span class="debug-value" :class="auth.loggedIn.value ? 'success' : 'error'">
+        <span
+          class="debug-value"
+          :class="auth.loggedIn.value ? 'success' : 'error'"
+        >
           {{ auth.loggedIn.value ? 'Yes' : 'No' }}
         </span>
       </div>
       <div class="debug-item">
         <span class="debug-label">Refresh Enabled:</span>
-        <span class="debug-value" :class="refreshEnabled ? 'success' : 'error'">
+        <span
+          class="debug-value"
+          :class="refreshEnabled ? 'success' : 'error'"
+        >
           {{ refreshEnabled ? 'Yes' : 'No' }}
         </span>
       </div>
       <div class="debug-item">
         <span class="debug-label">Auto Refresh:</span>
-        <span class="debug-value" :class="autoRefreshEnabled ? 'success' : 'error'">
+        <span
+          class="debug-value"
+          :class="autoRefreshEnabled ? 'success' : 'error'"
+        >
           {{ autoRefreshEnabled ? 'Yes' : 'No' }}
         </span>
       </div>
@@ -40,7 +52,10 @@
       </div>
       <div class="debug-item">
         <span class="debug-label">Access Token Expires:</span>
-        <span class="debug-value" :class="countdownClass">{{ countdownDisplay }}</span>
+        <span
+          class="debug-value"
+          :class="countdownClass"
+        >{{ countdownDisplay }}</span>
       </div>
       <div class="debug-item full-width">
         <span class="debug-label">User:</span>

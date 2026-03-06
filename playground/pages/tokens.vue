@@ -118,7 +118,7 @@ const handleCopyAccessToken = async () => {
         copyMessage.value = ''
       }, 2000)
     }
-    catch (error) {
+    catch {
       copyMessage.value = 'Failed to copy to clipboard'
     }
   }
@@ -133,7 +133,7 @@ const handleCopyRefreshToken = async () => {
         copyMessage.value = ''
       }, 2000)
     }
-    catch (error) {
+    catch {
       copyMessage.value = 'Failed to copy to clipboard'
     }
   }
