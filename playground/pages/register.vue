@@ -2,7 +2,10 @@
   <div class="container">
     <h1>Register</h1>
 
-    <form @submit.prevent="handleRegister" class="auth-form">
+    <form
+      class="auth-form"
+      @submit.prevent="handleRegister"
+    >
       <div class="form-group">
         <label for="name">Name</label>
         <input
@@ -49,12 +52,18 @@
         >
       </div>
 
-      <div v-if="error" class="error-message">
+      <div
+        v-if="error"
+        class="error-message"
+      >
         {{ error }}
       </div>
 
       <div class="form-actions">
-        <button type="submit" :disabled="loading">
+        <button
+          type="submit"
+          :disabled="loading"
+        >
           {{ loading ? 'Registering...' : 'Register' }}
         </button>
         <NuxtLink to="/login">Already have an account? Login</NuxtLink>

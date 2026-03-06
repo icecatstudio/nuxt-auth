@@ -1,35 +1,13 @@
 import { computed, useNuxtApp, useRuntimeConfig, useState } from '#imports'
 import type { ComputedRef, Ref } from 'vue'
-import type { LoginOptions, ResolvedModuleOptions } from '../types'
+import type { LoginCredentials, LoginOptions, RegisterData, ResolvedModuleOptions, User } from '../types'
 import { getNestedProperty, isObject } from '../utils/helpers'
 import { handleRedirect } from '../utils/redirect'
 import { useTokenManager } from './useTokenManager'
 
+export type { User, LoginCredentials, RegisterData }
+
 export type AuthStatus = 'idle' | 'loading' | 'refreshing' | 'authenticated' | 'unauthenticated'
-
-/**
- * Default user interface - can be augmented via module declaration
- * @example
- * // In your project: types/auth.d.ts
- * declare module '@icecat-studio/nuxt-auth' {
- *   interface User {
- *     id: number
- *     email: string
- *     name: string
- *   }
- * }
- */
-export interface User {
-  [key: string]: unknown
-}
-
-export interface LoginCredentials {
-  [key: string]: unknown
-}
-
-export interface RegisterData {
-  [key: string]: unknown
-}
 
 /**
  * Auth composable return type

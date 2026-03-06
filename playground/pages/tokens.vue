@@ -4,14 +4,21 @@
 
     <div class="description">
       <p>This page demonstrates access to tokens via the <code>useAuth</code> composable.</p>
-      <p>Tokens are now exposed as computed properties: <code>auth.accessToken</code> and <code>auth.refreshToken</code></p>
+      <p>
+        Tokens are now exposed as computed properties: <code>auth.accessToken</code> and <code>auth.refreshToken</code>
+      </p>
     </div>
 
     <div class="tokens-card">
       <h3>Access Token</h3>
       <div class="token-display">
         <pre v-if="auth.accessToken.value">{{ auth.accessToken.value }}</pre>
-        <p v-else class="no-token">No access token available</p>
+        <p
+          v-else
+          class="no-token"
+        >
+          No access token available
+        </p>
       </div>
     </div>
 
@@ -19,7 +26,12 @@
       <h3>Refresh Token</h3>
       <div class="token-display">
         <pre v-if="auth.refreshToken.value">{{ auth.refreshToken.value }}</pre>
-        <p v-else class="no-token">No refresh token available</p>
+        <p
+          v-else
+          class="no-token"
+        >
+          No refresh token available
+        </p>
       </div>
     </div>
 
@@ -27,25 +39,30 @@
       <h3>Token Actions</h3>
       <div class="actions-grid">
         <button
-          @click="handleRefreshTokens"
           :disabled="refreshing || !auth.refreshToken.value"
+          @click="handleRefreshTokens"
         >
           {{ refreshing ? 'Refreshing...' : 'Refresh Tokens' }}
         </button>
         <button
-          @click="handleCopyAccessToken"
           :disabled="!auth.accessToken.value"
+          @click="handleCopyAccessToken"
         >
           Copy Access Token
         </button>
         <button
-          @click="handleCopyRefreshToken"
           :disabled="!auth.refreshToken.value"
+          @click="handleCopyRefreshToken"
         >
           Copy Refresh Token
         </button>
       </div>
-      <p v-if="copyMessage" class="copy-message">{{ copyMessage }}</p>
+      <p
+        v-if="copyMessage"
+        class="copy-message"
+      >
+        {{ copyMessage }}
+      </p>
     </div>
 
     <div class="info-card">
@@ -57,7 +74,10 @@
 
     <div class="navigation">
       <NuxtLink to="/">Back to Home</NuxtLink>
-      <NuxtLink v-if="auth.loggedIn.value" to="/dashboard">Go to Dashboard</NuxtLink>
+      <NuxtLink
+        v-if="auth.loggedIn.value"
+        to="/dashboard"
+      >Go to Dashboard</NuxtLink>
     </div>
   </div>
 </template>

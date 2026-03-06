@@ -9,7 +9,7 @@ import {
 import type { ModuleOptions } from './runtime/types'
 import { defu } from 'defu'
 
-export type { ModuleOptions } from './runtime/types'
+export type { ModuleOptions, User, LoginCredentials, RegisterData } from './runtime/types'
 
 export default defineNuxtModule<ModuleOptions>({
   meta: {
@@ -101,6 +101,9 @@ export default defineNuxtModule<ModuleOptions>({
       global: true,
     })
 
+    // Register #auth alias for type augmentation
+    nuxt.options.alias['#auth'] = resolver.resolve('./runtime/types')
+
     // Auto-import composables
     addImportsDir(resolver.resolve('./runtime/composables'))
 
@@ -137,12 +140,6 @@ export default defineNuxtModule<ModuleOptions>({
         declare module 'vue-router' {
           interface RouteMeta {
             auth?: boolean | 'guest' | 'guestOnly'
-          }
-        }
-
-        declare module '@icecat-studio/nuxt-auth' {
-          interface User {
-            [key: string]: unknown
           }
         }
 
