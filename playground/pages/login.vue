@@ -50,7 +50,10 @@ if (import.meta.client) {
   <div class="container">
     <h1>Login</h1>
 
-    <form @submit.prevent="handleLogin" class="auth-form">
+    <form
+      class="auth-form"
+      @submit.prevent="handleLogin"
+    >
       <div class="form-group">
         <label for="email">Email</label>
         <input
@@ -73,12 +76,18 @@ if (import.meta.client) {
         >
       </div>
 
-      <div v-if="error" class="error-message">
+      <div
+        v-if="error"
+        class="error-message"
+      >
         {{ error }}
       </div>
 
       <div class="form-actions">
-        <button type="submit" :disabled="loading">
+        <button
+          type="submit"
+          :disabled="loading"
+        >
           {{ loading ? 'Logging in...' : 'Login' }}
         </button>
         <NuxtLink to="/register">Don't have an account? Register</NuxtLink>

@@ -461,11 +461,11 @@ $refreshManager?.refresh() // Trigger immediate refresh
 
 ### TypeScript: Augmenting the User Type
 
-Define your user interface globally:
+Create a `types/auth.d.ts` file in your project and augment the `#auth` module:
 
 ```ts
 // types/auth.d.ts
-declare module '@icecat-studio/nuxt-auth' {
+declare module '#auth' {
   interface User {
     id: number
     email: string
@@ -473,6 +473,8 @@ declare module '@icecat-studio/nuxt-auth' {
     avatar?: string
   }
 }
+
+export {}
 ```
 
 Then `useAuth()` will infer the correct type:

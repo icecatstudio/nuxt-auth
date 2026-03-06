@@ -82,11 +82,13 @@
         <NuxtLink
           to="/"
           class="link-btn"
-        >Go to Home</NuxtLink>
+        >Go to Home
+        </NuxtLink>
         <NuxtLink
           to="/tokens"
           class="link-btn tokens-btn"
-        >View Tokens</NuxtLink>
+        >View Tokens
+        </NuxtLink>
       </div>
     </div>
   </div>

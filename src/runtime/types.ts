@@ -218,3 +218,27 @@ export interface ModuleOptions {
  * This is what the composables receive at runtime
  */
 export type ResolvedModuleOptions = RequiredDeep<ModuleOptions>
+
+/**
+ * Default user interface - can be augmented via module declaration
+ * @example
+ * // In your project: types/auth.d.ts
+ * declare module '#auth' {
+ *   interface User {
+ *     id: number
+ *     email: string
+ *     name: string
+ *   }
+ * }
+ */
+export interface User {
+  [key: string]: unknown
+}
+
+export interface LoginCredentials {
+  [key: string]: unknown
+}
+
+export interface RegisterData {
+  [key: string]: unknown
+}

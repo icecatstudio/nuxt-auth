@@ -2,17 +2,25 @@
   <div class="container">
     <h1>Nuxt Auth Module - Playground</h1>
 
-    <div v-if="auth.loggedIn.value" class="user-info">
+    <div
+      v-if="auth.loggedIn.value"
+      class="user-info"
+    >
       <h2>Welcome, {{ auth.user.value?.name }}!</h2>
       <pre>{{ JSON.stringify(auth.user.value, null, 2) }}</pre>
       <div class="actions">
-        <button @click="handleLogout">Logout</button>
+        <button @click="handleLogout">
+          Logout
+        </button>
         <NuxtLink to="/dashboard">Go to Dashboard</NuxtLink>
         <NuxtLink to="/tokens">View Tokens</NuxtLink>
       </div>
     </div>
 
-    <div v-else class="auth-links">
+    <div
+      v-else
+      class="auth-links"
+    >
       <h2>Please authenticate</h2>
       <div class="actions">
         <NuxtLink to="/login">Login</NuxtLink>
