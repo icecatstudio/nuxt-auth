@@ -223,7 +223,7 @@ export type ResolvedModuleOptions = RequiredDeep<ModuleOptions>
  * Default user interface - can be augmented via module declaration
  * @example
  * // In your project: types/auth.d.ts
- * declare module '@icecat-studio/nuxt-auth' {
+ * declare module '#auth' {
  *   interface User {
  *     id: number
  *     email: string
