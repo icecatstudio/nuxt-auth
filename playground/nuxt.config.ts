@@ -5,10 +5,9 @@ import type { AuthMode } from './configs/presets'
 const defaultMode: AuthMode = (process.env.AUTH_MODE as AuthMode) || 'client-managed'
 
 export default defineNuxtConfig({
-  // ssr: false,
   modules: ['../src/module'],
 
-  auth: getPresetConfig(defaultMode),
+  devtools: { enabled: true },
 
   runtimeConfig: {
     public: {
@@ -20,5 +19,5 @@ export default defineNuxtConfig({
     typeCheck: true,
   },
 
-  devtools: { enabled: true },
+  auth: getPresetConfig(defaultMode),
 })

@@ -111,8 +111,8 @@ const handleRegister = async () => {
     // Redirect to dashboard on success
     await router.push('/dashboard')
   }
-  catch (err: any) {
-    error.value = err.message || 'Registration failed. Please try again.'
+  catch (err: unknown) {
+    error.value = err instanceof Error ? err.message : 'Registration failed. Please try again.'
     console.error('Register error:', err)
   }
   finally {

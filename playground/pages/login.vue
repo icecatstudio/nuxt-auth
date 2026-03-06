@@ -27,8 +27,8 @@ const handleLogin = async () => {
     // Redirect to dashboard on success
     await router.push('/dashboard')
   }
-  catch (err: any) {
-    error.value = err.message || 'Login failed. Please check your credentials.'
+  catch (err: unknown) {
+    error.value = err instanceof Error ? err.message : 'Login failed. Please check your credentials.'
     console.error('Login error:', err)
   }
   finally {

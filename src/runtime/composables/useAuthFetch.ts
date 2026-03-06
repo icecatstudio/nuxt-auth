@@ -1,6 +1,5 @@
 import type { AvailableRouterMethod, NitroFetchOptions, NitroFetchRequest } from 'nitropack'
-import { useNuxtApp, useRuntimeConfig } from '#imports'
-import type { ResolvedModuleOptions } from '../types'
+import { useNuxtApp } from '#imports'
 import { isFetchError, toPlainHeaders } from '../utils/fetch-helpers'
 import { useAuth } from './useAuth'
 
@@ -18,7 +17,6 @@ import { useAuth } from './useAuth'
 export function useAuthFetch() {
   const auth = useAuth()
   const nuxtApp = useNuxtApp()
-  const config = useRuntimeConfig().public.auth as ResolvedModuleOptions
 
   async function authFetch<
     ResT = undefined,
