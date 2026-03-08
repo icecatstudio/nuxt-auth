@@ -114,6 +114,31 @@ describe('no-refresh auth', async () => {
     })
   })
 
+  // --- Error scenarios ---
+
+  describe('error handling', () => {
+    it('cannot recover session without refresh capability', async () => {
+      // No refresh endpoint → once access token is gone, session is lost
+      const res = await fetch('/dashboard', {
+        redirect: 'manual',
+      })
+      expect([301, 302]).toContain(res.status)
+      const location = res.headers.get('location') || ''
+      expect(location).toContain('/login')
+    })
+
+    it('loggedIn is false when access token cookie is empty', async () => {
+      const res = await fetch('/', {
+        headers: {
+          cookie: 'auth.access_token=',
+        },
+      })
+      const html = await res.text()
+      expect(html).toMatch(/data-logged-in[^>]*>false</)
+      expect(html).toMatch(/data-can-refresh[^>]*>false</)
+    })
+  })
+
   // --- Middleware ---
 
   describe('middleware', () => {

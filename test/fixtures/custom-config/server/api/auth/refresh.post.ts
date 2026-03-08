@@ -1,6 +1,3 @@
-// Track refresh calls for deduplication testing
-let refreshCallCount = 0
-
 export default defineEventHandler(async (event) => {
   const body = await readBody(event)
 
@@ -11,18 +8,8 @@ export default defineEventHandler(async (event) => {
     })
   }
 
-  refreshCallCount++
-
-  // Small delay to make concurrent calls overlap
-  await new Promise(resolve => setTimeout(resolve, 50))
-
   return {
     accessToken: 'mock-access-token-' + Date.now(),
     refreshToken: 'mock-refresh-token-' + Date.now(),
-    _refreshCallCount: refreshCallCount,
   }
 })
-
-// Export for reset
-export { refreshCallCount }
-

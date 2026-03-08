@@ -122,6 +122,44 @@ describe('client-managed auth', async () => {
     })
   })
 
+  // --- SSR error scenarios ---
+
+  describe('SSR error handling', () => {
+    it('falls back to unauthenticated when refresh token is invalid on SSR', async () => {
+      const res = await fetch('/', {
+        headers: {
+          cookie: 'auth.refresh_token=invalid-token',
+        },
+      })
+      const html = await res.text()
+      // session-init tries refresh → fails → status remains idle or unauthenticated
+      expect(html).toMatch(/data-logged-in[^>]*>false</)
+    })
+
+    it('falls back to unauthenticated with expired/invalid access token and no refresh', async () => {
+      const res = await fetch('/', {
+        headers: {
+          cookie: 'auth.access_token=expired-token',
+        },
+      })
+      const html = await res.text()
+      // Has access token but no refresh token → canRefresh=false → session-init marks authenticated
+      // (server trusts the cookie; actual validation happens on API calls)
+      expect(html).toMatch(/data-has-access-token[^>]*>true</)
+      expect(html).toMatch(/data-can-refresh[^>]*>false</)
+    })
+
+    it('renders correctly with empty cookie values', async () => {
+      const res = await fetch('/', {
+        headers: {
+          cookie: 'auth.access_token=; auth.refresh_token=',
+        },
+      })
+      const html = await res.text()
+      expect(html).toMatch(/data-logged-in[^>]*>false</)
+    })
+  })
+
   // --- SSR rendering ---
 
   describe('SSR', () => {

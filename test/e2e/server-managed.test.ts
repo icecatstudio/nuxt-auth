@@ -193,6 +193,37 @@ describe('server-managed auth', async () => {
     })
   })
 
+  // --- Error scenarios ---
+
+  describe('error handling', () => {
+    it('returns 401 when refreshing without httpOnly cookie', async () => {
+      const res = await fetch('/api/auth/refresh', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({}),
+      })
+      expect(res.status).toBe(401)
+    })
+
+    it('SSR renders unauthenticated with invalid refresh cookie', async () => {
+      const res = await fetch('/', {
+        headers: {
+          cookie: 'auth.refresh_token=invalid-cookie-value',
+        },
+      })
+      const html = await res.text()
+      // session-init tries refresh → server rejects → falls back
+      expect(html).toMatch(/data-logged-in[^>]*>false</)
+    })
+
+    it('returns 401 for user endpoint with expired token', async () => {
+      const res = await fetch('/api/auth/user', {
+        headers: { Authorization: 'Bearer expired-token-123' },
+      })
+      expect(res.status).toBe(401)
+    })
+  })
+
   // --- Middleware ---
 
   describe('middleware', () => {

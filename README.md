@@ -141,13 +141,13 @@ definePageMeta({
 
 ```vue
 <script setup lang="ts">
-const auth = useAuth()
+const { loggedIn, user, logout } = useAuth()
 </script>
 
 <template>
-  <div v-if="auth.loggedIn.value">
-    <p>Welcome, {{ auth.user.value?.name }}!</p>
-    <button @click="auth.logout()">Logout</button>
+  <div v-if="loggedIn">
+    <p>Welcome, {{ user?.name }}!</p>
+    <button @click="logout()">Logout</button>
   </div>
 </template>
 ```
@@ -220,23 +220,18 @@ export default defineNuxtConfig({
 
 ## Configuration
 
+All options with their default values are listed in the [Default Configuration](#default-configuration) section below.
+
 ### Endpoints
 
-Each endpoint can be configured or disabled individually:
+Each endpoint can be configured or disabled individually by setting it to `false`:
 
 ```ts
-export default defineNuxtConfig({
-  auth: {
-    baseUrl: '/api/auth',
-    endpoints: {
-      login: { path: '/login', method: 'post' },
-      logout: { path: '/logout', method: 'post' },   // set to `false` to disable
-      register: { path: '/register', method: 'post' }, // set to `false` to disable
-      refresh: { path: '/refresh', method: 'post' },   // set to `false` to disable
-      user: { path: '/user', method: 'get' },
-    },
-  },
-})
+endpoints: {
+  logout: false,   // disable logout endpoint
+  register: false, // disable register endpoint
+  refresh: false,  // disable token refresh entirely
+}
 ```
 
 You can also pass additional fetch options per endpoint:
@@ -251,96 +246,18 @@ endpoints: {
 }
 ```
 
-### Access Token
-
-```ts
-export default defineNuxtConfig({
-  auth: {
-    accessToken: {
-      property: 'accessToken',      // Property in API response
-      cookieName: 'auth.access_token',
-      type: 'Bearer',               // Token type prefix
-      headerName: 'Authorization',   // Header name
-      maxAge: 900,                   // 15 minutes (in seconds)
-      httpOnly: false,
-      secure: true,
-      sameSite: 'lax',
-      path: '/',
-    },
-  },
-})
-```
-
-### Refresh Token
-
-```ts
-export default defineNuxtConfig({
-  auth: {
-    refreshToken: {
-      property: 'refreshToken',        // Property in API response
-      cookieName: 'auth.refresh_token',
-      serverManaged: false,            // true = httpOnly cookie managed by server
-      bodyProperty: 'refreshToken',    // Key name in refresh request body
-      maxAge: 604800,                  // 7 days (in seconds)
-      httpOnly: false,
-      secure: true,
-      sameSite: 'lax',
-      path: '/',
-    },
-  },
-})
-```
-
 ### Auto-Refresh
 
-```ts
-export default defineNuxtConfig({
-  auth: {
-    autoRefresh: {
-      enabled: true,
-      interval: 840,                  // 14 minutes (in seconds)
-      pauseOnInactive: true,          // Pause when tab is hidden
-      enableTabCoordination: true,    // Coordinate between tabs
-      coordinationCookieName: 'auth.last_refresh',
-      coordinationThreshold: 5,       // 5 seconds — skip if another tab refreshed within this time
-    },
-  },
-})
-```
+The `interval` is auto-calculated as `accessToken.maxAge * 0.75` by default, so you usually don't need to set it manually. For example, with the default `maxAge` of 900 seconds (15 min), the interval will be 675 seconds (~11 min).
 
 ### Redirects
 
-```ts
-export default defineNuxtConfig({
-  auth: {
-    redirect: {
-      login: '/login',      // Where to redirect unauthenticated users
-      logout: '/',           // Where to redirect after logout
-      home: '/',             // Where to redirect after login
-    },
-  },
-})
-```
-
-Redirects also support external URLs:
+Redirects support external URLs:
 
 ```ts
 redirect: {
   home: { url: 'https://app.example.com/dashboard', external: true },
 }
-```
-
-### User
-
-```ts
-export default defineNuxtConfig({
-  auth: {
-    user: {
-      property: undefined,  // Nested property path (e.g., 'data.user'), undefined = entire response
-      autoFetch: true,       // Automatically fetch user after login/refresh
-    },
-  },
-})
 ```
 
 ### Global Middleware
@@ -419,46 +336,6 @@ const data = await authFetch('/api/data', { method: 'POST', body: { key: 'value'
 3. On 401 response (client-side only) — refreshes the token and retries the request once
 4. During SSR — forwards incoming request cookies for server-managed tokens
 
-## Advanced Usage
-
-### Custom API Calls with Auth Headers
-
-If you need auth headers without using `useAuthFetch`:
-
-```ts
-const auth = useAuth()
-
-const data = await $fetch('/api/protected', {
-  headers: auth.getAuthHeaders(),
-})
-```
-
-### Manual Token Refresh
-
-```ts
-const auth = useAuth()
-
-try {
-  await auth.refresh()
-  console.log('Token refreshed successfully')
-}
-catch (error) {
-  console.error('Refresh failed:', error)
-}
-```
-
-### Controlling the Refresh Manager
-
-The auto-refresh scheduler is exposed via `useNuxtApp().$refreshManager`:
-
-```ts
-const { $refreshManager } = useNuxtApp()
-
-$refreshManager?.stop()    // Stop auto-refresh
-$refreshManager?.start()   // Start auto-refresh
-$refreshManager?.refresh() // Trigger immediate refresh
-```
-
 ### TypeScript: Augmenting the User Type
 
 Create a `types/auth.d.ts` file in your project and augment the `#auth` module:
@@ -507,7 +384,7 @@ const auth = useAuth<MyUser>()
 
 ### Auto-Refresh
 
-1. Schedules token refresh at the configured interval (default: 14 minutes)
+1. Schedules token refresh at the configured interval (default: `maxAge * 0.75`)
 2. Pauses when the tab is hidden (if `pauseOnInactive` enabled)
 3. Resumes with an immediate refresh when the tab becomes visible
 4. On network error — reschedules with a doubled interval
@@ -568,7 +445,7 @@ export default defineNuxtConfig({
     },
     autoRefresh: {
       enabled: true,
-      interval: 840,                // 14 minutes
+      // interval: undefined,         // auto-calculated as maxAge * 0.75
       pauseOnInactive: true,
       enableTabCoordination: true,
       coordinationCookieName: 'auth.last_refresh',
