@@ -1,11 +1,10 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
+import { navigateTo } from '#imports'
+import { handleRedirect } from '../../src/runtime/utils/redirect'
 
 vi.mock('#imports', () => ({
   navigateTo: vi.fn(),
 }))
-
-import { navigateTo } from '#imports'
-import { handleRedirect } from '../../src/runtime/utils/redirect'
 
 const mockNavigateTo = vi.mocked(navigateTo)
 

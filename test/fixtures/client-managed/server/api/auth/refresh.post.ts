@@ -1,4 +1,5 @@
 // Track refresh calls for deduplication testing
+// eslint-disable-next-line import/no-mutable-exports
 let refreshCallCount = 0
 
 export default defineEventHandler(async (event) => {
@@ -25,4 +26,3 @@ export default defineEventHandler(async (event) => {
 
 // Export for reset
 export { refreshCallCount }
-

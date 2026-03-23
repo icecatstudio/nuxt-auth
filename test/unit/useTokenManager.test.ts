@@ -1,6 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { ref } from 'vue'
 import { createDefaultConfig, createCookieMock } from './_helpers'
+import { useTokenManager } from '../../src/runtime/composables/useTokenManager'
 
 let cookieMock: ReturnType<typeof createCookieMock>
 let config = createDefaultConfig()
@@ -12,8 +13,6 @@ vi.mock('#imports', () => {
     ref: (val: unknown) => ref(val),
   }
 })
-
-import { useTokenManager } from '../../src/runtime/composables/useTokenManager'
 
 describe('useTokenManager', () => {
   beforeEach(() => {

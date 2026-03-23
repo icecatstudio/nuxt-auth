@@ -18,7 +18,7 @@ const refreshError = ref('')
 // On SSR: call refresh() 3 times concurrently — deduplication should merge them into 1 actual request
 if (import.meta.server && auth.canRefresh.value) {
   try {
-    const results = await Promise.all([
+    await Promise.all([
       auth.refresh(),
       auth.refresh(),
       auth.refresh(),

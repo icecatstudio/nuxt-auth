@@ -48,8 +48,6 @@ describe('concurrent refresh deduplication', async () => {
         cookie: 'auth.refresh_token=invalid-token',
       },
     })
-    const html = await res.text()
-
     // session-init tries refresh first → fails → page may not try again
     // Either way, no crash
     expect(res.status).toBe(200)
